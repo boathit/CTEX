@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 32
+/svn/!svn/ver/106/trunk/ctex/cfg
+END
+ctex.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/106/trunk/ctex/cfg/ctex.cfg
+END
+ctexopts.cfg.template
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/106/trunk/ctex/cfg/ctexopts.cfg.template
+END
+ctexcap.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/106/trunk/ctex/cfg/ctexcap.cfg
+END
+ctexcap-gbk.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/106/trunk/ctex/cfg/ctexcap-gbk.cfg
+END
+ctexcap-utf8.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/106/trunk/ctex/cfg/ctexcap-utf8.cfg
+END

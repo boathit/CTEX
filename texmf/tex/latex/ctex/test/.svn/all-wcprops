@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 33
+/svn/!svn/ver/209/trunk/ctex/test
+END
+test-cjk.tex
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/209/trunk/ctex/test/test-cjk.tex
+END
+test-xetex.tex
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/166/trunk/ctex/test/test-xetex.tex
+END
+test-cjkutf8.tex
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/106/trunk/ctex/test/test-cjkutf8.tex
+END
+test-xetexgbk.tex
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/106/trunk/ctex/test/test-xetexgbk.tex
+END

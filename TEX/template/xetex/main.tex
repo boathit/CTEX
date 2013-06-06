@@ -1,0 +1,64 @@
+%%%%%%%%------------------------------------------------------------------------
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+% 
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+% 
+% You should have received a copy of the GNU General Public License
+% along with this program.  If not, see <http://www.gnu.org/licenses/>.
+%%%%%%%%------------------------------------------------------------------------
+% Name:         xecjk-template
+% Author:       Xiao Hanyu
+% Email:        xiaohanyu1988@gmail.com
+% Homepage:     http://cnlox.is-programmer.com
+% Project Page: http://code.google.com/p/xecjk-template/
+%               This is an xelatex template with xeCJK support. 
+%%%%%%%%------------------------------------------------------------------------
+
+%%%%%%%%------------------------------------------------------------------------
+%%%% 导言区
+%% 设定纸张大小为A4, 基本字体大小为12pt, 文章题目单独为一页， 
+%% 文档类型为article
+\documentclass[a4paper, 12pt, titlepage]{article}
+
+%% en_preamble包含基本的宏包配置
+\input{data/en_preamble}
+
+%% 如果不写中文的话就不需要引用xecjk_preamble里面的配置
+\input{data/xecjk_preamble}
+
+%%%% 导言区结束
+%%%%%%%%------------------------------------------------------------------------
+
+%%%%%%%%------------------------------------------------------------------------
+%%%% 正文部分
+
+\begin{document}
+
+%% 中文习惯是设定首行缩进为2em。注意此设置一定要在document环境之中，这可能与\setlength作用范围相关
+\setlength{\parindent}{2em}                    
+
+\title{Xecjk Template Test}
+\author{Xiao Hanyu}
+\maketitle
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\include{data/content}
+\include{data/appendix}
+
+%% 加入参考文献支持
+\bibliography{data/main}
+%% 解决目录中没有相应的参考文献的条目问题
+\addcontentsline{toc}{section}{\refname} 
+
+\end{document}
+%%%% 正文部分结束
+%%%%%%%%------------------------------------------------------------------------

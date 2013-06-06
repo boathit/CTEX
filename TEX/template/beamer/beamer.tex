@@ -1,0 +1,311 @@
+% Copyright 2004 by Till Tantau <tantau@users.sourceforge.net>.
+%
+% In principle, this file can be redistributed and/or modified under
+% the terms of the GNU Public License, version 2.
+%
+% However, this file is supposed to be a template to be modified
+% for your own needs. For this reason, if you use this file as a
+% template and not specifically distribute it as part of a another
+% package/program, I grant the extra permission to freely copy and
+% modify this file as you see fit and even to delete this copyright
+% notice. 
+
+\documentclass{beamer}
+\usepackage{ctex}
+\usepackage{clrscode3e}
+% There are many different themes available for Beamer. A comprehensive
+% list with examples is given here:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+% You can uncomment the themes below if you would like to use a different
+% one:
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{boxes}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{default}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+\title{LDA概率模型简介}
+
+% A subtitle is optional and this may be deleted
+\subtitle{Latent Dirichlet Allocation}
+
+\author{李修成\\12S003016}
+%\author{F.~Author\inst{1} \and S.~Another\inst{2}}
+
+\institute[HIT]
+{
+    Department of Computer Science\\
+    Harbin Institute of Technology
+}
+
+%\institute[Universities of Somewhere and Elsewhere] % (optional, but mostly needed)
+%{
+%  \inst{1}%
+%  Department of Computer Science\\
+%  University of Somewhere
+%  \and
+%  \inst{2}%
+%  Department of Theoretical Philosophy\\
+%  University of Elsewhere
+%}
+
+\date{}
+%\date{Conference Name, 2013}
+
+\subject{Theoretical Computer Science}
+
+%\AtBeginSubsection[]
+%{
+%  \begin{frame}<beamer>{Outline}
+ %   \tableofcontents[currentsection,currentsubsection]
+%  \end{frame}
+%}
+
+% Let's get started
+\setlength{\parindent}{0pt}
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+%\begin{frame}{Outline}
+%  \tableofcontents
+%\end{frame}
+
+
+\begin{frame}
+  \begin{itemize}
+  \item {
+        LDA(Latent Dirichlet Allocation), a generative probabilistic model for collections of discrete data such as
+        text corpora and has been widely used in the area like text model, content-based image retrievel and 
+        bioinformatics.
+  }
+  \item LDA was developed by David Blei when he pursued his PhD in UC Berkeley learning from M. Jordan.\\
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+ \begin{itemize}
+  \item {
+    Essentially, LDA can be seen as an effective method of reduction like PCA which could find the main features
+    of the data. From the history perspective, it is also the further development of pLSI(but we do not discuss 
+    it today).
+  }
+  \item {
+        As we present above, LDA could be used in many different areas but for convenience we would like
+        to discuss it using the example of text modeling.
+  }  
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Mathematica Supplementary}
+    \begin{itemize}
+        \item {
+                Multinominal distribution, 
+           \begin{equation}
+               \begin{split}
+                Multi(m_1,m_2,\ldots,m_k|\theta, N)=&
+                \frac{N!}{m_1!m_2! \ldots m_k!}  \theta_1^{m_1} \ldots \theta_k^{m_k} , \\
+                & (\Sigma _{i=1}^k m_i=N,  \Sigma _{i=1}^k \alpha _i=1)
+                \end{split} 
+           \end{equation}
+            }
+        \item {
+                Dirichlet distribution,
+            \begin{equation}
+                 Dir( \theta | \alpha )=
+                \frac{ \Gamma ( \Sigma _{i=1}^k  \alpha _i)}{ \Pi _{i=1}^k \Gamma (\alpha_i)}
+                \theta _1^{\alpha_1-1} \ldots \theta _k^{\alpha_k-1}
+            \end{equation}
+            }
+        \item  {
+                \begin{equation}
+                 \Gamma (x) = \int_{0}^{ \infty } u^{x-1}e^{-u} \, du,
+                \end{equation}
+        }
+        其中，$\Gamma (x+1) = x \Gamma (x), \Gamma(1) = 1$,$\Gamma(x)$为阶乘函数$n!$在实数集上的延拓
+        \item {
+        The Dirichlet is conjugate to the multinomial distribution.
+        }
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Notation and  terminology}
+    \begin{itemize}
+        \item word(pixel),Vocabulary indexed by$\{1,\ldots,V\}$
+        \item document(image),$\textbf{w} = (w_1,w_2,\ldots, w_N)$
+        \item corpus(collections of image), $D = \{ \textbf{w}_1, \textbf{w}_2, \ldots, \textbf{w}_M \}$
+    \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+    \begin{itemize}
+    \item {
+    The basic idea is that documents are represented as random mixtures over latent topics, where each topic
+    is characterized by a distribution over words.
+    }
+
+    \item {
+    LDA assumes the following generative process for each document $\textbf{w}$ in a corpus $D$:
+    \begin{codebox}
+        \li Choose $N \sim Poisson$.
+        \li Choose $\theta \sim Dir(\alpha)$.
+        \li \For each of the N words $w_n$:
+        \li    \Do
+                Choose a topic $z_n \sim Multinominal(\theta)$.
+        \li     Choose a word $w_n$ from $p(w_n|z_n,\beta)$, a multinomial
+        \li        probability conditioned on the topic $z_n$.
+            \End
+    \end{codebox}
+
+    $\beta_{k \times V}$ is a $k \times V$ matrix, $\beta_{ij} = p(w^j=1|z^i=1)$
+    }
+    \end{itemize} 
+
+\end{frame}
+
+\begin{frame}{LDA presenting in PGM}
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=0.8\textwidth]{lda_plate.png}}
+	\caption[]{\label{c} Three-level hierarchical Bayesian model}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}
+\begin{itemize}
+	\item {
+	Given the parameters $\alpha$ and $\beta$, the joint distribution of a topic
+	mixture $\theta$, a set of $N$ topics $\textbf{z}$, and a set of $N$ words 
+	$\textbf{w}$ is given by:
+	\begin{equation}
+	p( \theta ,\textbf{z},\textbf{w}| \alpha , \beta ) = 
+	p( \theta | \alpha ) \Pi _{n=1}^Np(z_n| \theta )p(w_n|z_n, \beta )
+	\end{equation}
+	}
+	\item {
+	\begin{equation}
+	p( \textbf{w}| \alpha , \beta ) = \int
+	p( \theta | \alpha ) (\Pi _{n=1}^N  \Sigma_{z_n}  p(z_n| \theta )p(w_n|z_n,  \beta ))\ d\theta
+	\end{equation}
+	}
+	\item {
+	posterior probability
+	\begin{equation}
+	p(\theta,\textbf{z}|\textbf{w},\alpha,\beta) = 
+	\frac{p( \theta ,\textbf{z},\textbf{w}| \alpha , \beta )}
+	{p( \textbf{w}| \alpha , \beta )}
+	\end{equation}
+	}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Parameter Inference}
+\begin{itemize}
+
+\item {
+\begin{equation}
+p(\textbf{w}| \alpha , \beta )= \frac{ \Gamma(\Sigma _i \alpha _i)}{ \Pi _i \Gamma ( \alpha _i)} \int 
+( \Pi _{i=1}^k \theta_i^{\alpha_i-1} )( \Pi_{n=1}^N  \Sigma_{i=1}^k  \Pi_{j=1}^V( \theta _i \beta _{ij})^{w_n^j} ) d\theta
+\end{equation} 
+However, it is intractable (Dickey,1983)!!
+}
+\pause
+
+	\item Variational approximation
+	\item Markov chain Monte Carlo
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{example}
+	We choose three articles from wikipedia:
+	\begin{enumerate}
+		\item Jay Chou
+		\item Computer Science
+		\item Finance
+\end{enumerate}	 
+	\end{example}
+\end{frame}
+
+\begin{frame}{K Topics}
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=0.8\textwidth]{lda_words.png}}
+	%\caption[]{\label{a} Topics}
+\end{figure}
+\end{frame}
+
+\begin{frame}{$\Theta$ in each docment}
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=0.8\textwidth]{lda_theta.png}}
+	%\caption[]{\label{b} $\Theta$ in each docment}
+\end{figure}
+
+\begin{columns}[t] 
+
+	\begin{column}[T]{5cm} 
+          \begin{enumerate}
+     		\item Doc: Jay Chou 
+			\item Doc: Computer Science
+			\item Doc: Finance
+     	  \end{enumerate}
+     \end{column}
+     \pause
+     \begin{column}[T]{5cm} % each column can also be its own environment
+     	\begin{enumerate}
+     		\item Topic: Computer Science  
+			\item Topic: Finance 
+			\item Topic: Jay Chou 
+     	\end{enumerate}
+     \end{column}
+     
+     
+\end{columns}
+
+\end{frame}
+
+
+\begin{frame}{Blocks}
+	\begin{block}{Block Title}
+		You can also highlight sections of your presentation in a block, with it's own title
+	\end{block}
+
+	\begin{theorem}
+		There are separate environments for theorems, examples, definitions and proofs.
+	\end{theorem}
+
+	\begin{example}
+		Here is an example of an example block.
+	\end{example}
+\end{frame}
+
+
+\end{document}
+
+

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/!svn/ver/208/trunk/ctex/engine
+END
+ctex-xecjk-engine.def
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/208/trunk/ctex/engine/ctex-xecjk-engine.def
+END
+ctex-cjk-engine.def
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/208/trunk/ctex/engine/ctex-cjk-engine.def
+END
+ctex-cct-engine.def
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/106/trunk/ctex/engine/ctex-cct-engine.def
+END
+ctex-cjk-common.def
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/106/trunk/ctex/engine/ctex-cjk-common.def
+END

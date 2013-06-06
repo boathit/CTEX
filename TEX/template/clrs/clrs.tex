@@ -1,0 +1,38 @@
+\documentclass[a4paper]{report}
+\usepackage{clrscode3e}
+\input{/home/boat/TEX/en_preamble.tex}
+
+\date{}
+\author{}
+\title{clrscode3e}
+\begin{document}
+\maketitle
+
+\begin{codebox}
+\Procname{$\proc{Insertion-Sort}(A)$}
+\li	\For $j \gets 2$ \To $\attrib{A}{length}$
+\li 	\Do
+		$\id{key} \gets A[j]$
+%\li 		\Comment Insert $A[j]$ into the sorted sequence
+%			$A[1 \twodots j-1]$.
+\li 		$i \gets j-1$
+\li 		\While $i > 0$ and $A[i] > \id{key}$
+\li 			\Do
+				$A[i+1] \gets A[i]$
+\li				$i \gets i-1$
+			\End
+\li 		$A[i+1] \gets \id{key}$
+	\End
+\end{codebox}
+
+\begin{codebox}
+%\Procname{$\proc{Insertion-Sort}(A)$}
+\li	Repeat until convergence \{
+\li	\Do
+		$\theta_j := \theta_j + \alpha\Sigma_{i=1}^m(y^{(i)} - h_\theta(x^{(i)}))x_j^{(i)}$  (for every j)
+	\End
+\li	\}
+\end{codebox}
+
+
+\end{document}
